@@ -5,6 +5,31 @@
 - kubectl
 - Git
 
+## Challenge Lab 01: Basic Nginx
+
+
+### Steps
+
+
+3. **Write file nginx-demo.yaml**
+
+5. **Deploy to Kubernetes**
+   kubectl apply -f nginx-demo.yaml
+
+6. **Result**
+    - NOTE: docker-desktop context automatically maps localhost to the Kubernetes cluster
+        Access via nodePort 
+
+        ![alt text](screen_shots/image-6.png)
+
+    - Curl to nodePort (context=minikube)
+
+        -> run: minikube start 
+        -> and deploy to Kubernetes again
+
+        ![alt text](screen_shots/image-5.png)
+        
+
 ## Challenge Lab 02: Static Web Deployment
 
 
@@ -13,7 +38,7 @@
 
 2. **Create nginx.conf in /nginx-config**
 
-3. **Create Dockerfile**
+3. **Create Dockerfile and deployment.yaml in folder /k8s**
    
 4. **Build & Push Docker Image**
    docker build -t hiumonday/static-web:v1 .
@@ -25,64 +50,20 @@
 6. **Result**
     - NOTE: docker-desktop context automatically maps localhost to the Kubernetes cluster
         Access via nodePort 
-        ![screen_shots/image.png](screen_shots/image.png)
+        ![alt text](screen_shots/image-2.png)
     - Curl to nodePort (context=minikube)
-        ![screen_shots/image-1.png](screen_shots/image-1.png)
+        -> run: minikube start 
+        -> and deploy to Kubernetes again
+        ![screen_shots/screen_shots/image-1.png](screen_shots/image-1.png)
 
 
-## Challenge Lab 03: Nginx Proxy Multi Apps
+## Challenge Lab 03: Nginx Proxy Multi Server
 
-### Project Structure
-Challenge_lab03/
-├── web1/
-│   ├── Dockerfile
-│   ├── nginx-config/
-│   │   └── nginx.conf
-│   └── website/
-│       └── index.html
-├── web2/
-│   ├── Dockerfile
-│   ├── nginx-config/
-│   │   └── nginx.conf
-│   └── website/
-│       └── index.html
-├── nginx-proxy/
-│   ├── Dockerfile
-│   └── nginx.conf
-└── k8s/
-    ├── web1-deployment.yaml
-    ├── web2-deployment.yaml
-    └── nginx-proxy.yaml
 
 ### Steps
-1. **Create Web1 & Web2**
-   - Copy static web files to respective directories
-   - Create Nginx configs for each web
+1. **Create Folfer /web1 & /web2 **
 
-2. **Create Nginx Proxy Config**
-   upstream web1 {
-       server web1-service:80;
-   }
-
-   upstream web2 {
-       server web2-service:80;
-   }
-
-   server {
-       listen 80;
-
-       location /web1 {
-           proxy_pass http://web1;
-           proxy_set_header Host $host;
-           proxy_set_header X-Real-IP $remote_addr;
-       }
-
-       location /web2 {
-           proxy_pass http://web2;
-           proxy_set_header Host $host;
-           proxy_set_header X-Real-IP $remote_addr;
-       }
-   }
+2. **Create nginx-proxy Config**
 
 3. **Build & Push Images**
    # Build web1
@@ -101,38 +82,19 @@ Challenge_lab03/
    docker push hiumonday/nginx-proxy
 
 4. **Deploy to Kubernetes**
-   kubectl apply -f k8s/web1-deployment.yaml
-   kubectl apply -f k8s/web2-deployment.yaml
-   kubectl apply -f k8s/nginx-proxy.yaml
+   cd /Challenge_lab03
+   kubectl apply -f ./k8s
+   
 
-5. **Access Applications**
-   # Get NodePort
-   kubectl get service nginx-proxy
+5. **Result**
+    - Default page http://localhost:30090/
 
-   # Access web1
-   curl http://localhost:30090/web1
+    ![alt text](screen_shots/image.png)
 
-   # Access web2
-   curl http://localhost:30090/web2
+    - Access web1
 
-### Troubleshooting
-1. **Check Pods Status**
-   kubectl get pods
-   kubectl describe pod <pod-name>
+    ![alt text](screen_shots/image-3.png)
 
-2. **Check Logs**
-   kubectl logs <pod-name>
+    - Access web2
 
-3. **Test Nginx Config**
-   kubectl exec -it <pod-name> -- nginx -t
-
-### Notes
-- Ensure all services are properly named and labeled
-- Check nginx configs for syntax errors
-- Verify all paths in HTML files are correct
-- Monitor logs for any routing issues
-
-## References
-- [Nginx Documentation](https://nginx.org/en/docs/)
-- [Kubernetes Documentation](https://kubernetes.io/docs/)
-- [Docker Documentation](https://docs.docker.com/)
+    ![alt text](screen_shots/image-4.png)
