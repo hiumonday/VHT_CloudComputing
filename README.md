@@ -18,14 +18,14 @@
 
 6. **Result**
     - NOTE: docker-desktop context automatically maps localhost to the Kubernetes cluster
-        Access via nodePort 
+        - Access via nodePort 
 
         ![alt text](screen_shots/image-6.png)
 
     - Curl to nodePort (context=minikube)
 
-        -> run: minikube start 
-        -> and deploy to Kubernetes again
+        - -> run: minikube start 
+        - -> and deploy to Kubernetes again
 
         ![alt text](screen_shots/image-5.png)
         
@@ -41,19 +41,19 @@
 3. **Create Dockerfile and deployment.yaml in folder /k8s**
    
 4. **Build & Push Docker Image**
-   docker build -t hiumonday/static-web:v1 .
-   docker push hiumonday/static-web:v1
+   - docker build -t hiumonday/static-web:v1 .
+   - docker push hiumonday/static-web:v1
 
 5. **Deploy to Kubernetes**
-   kubectl apply -f k8s/deployment.yaml
+   - kubectl apply -f k8s/deployment.yaml
 
 6. **Result**
     - NOTE: docker-desktop context automatically maps localhost to the Kubernetes cluster
-        Access via nodePort 
+        - Access via nodePort 
         ![alt text](screen_shots/image-2.png)
     - Curl to nodePort (context=minikube)
-        -> run: minikube start 
-        -> and deploy to Kubernetes again
+        - -> run: minikube start 
+        - -> and deploy to Kubernetes again
         ![screen_shots/screen_shots/image-1.png](screen_shots/image-1.png)
 
 
@@ -67,23 +67,23 @@
 
 3. **Build & Push Images**
    # Build web1
-   cd web1
-   docker build -t hiumonday/web1 .
-   docker push hiumonday/web1
+   - cd web1
+   - docker build -t hiumonday/web1 .
+   - docker push hiumonday/web1
 
    # Build web2
-   cd ../web2
-   docker build -t hiumonday/web2 .
-   docker push hiumonday/web2
+   - cd ../web2
+   - docker build -t hiumonday/web2 .
+   - docker push hiumonday/web2
 
    # Build nginx-proxy
-   cd ../nginx-proxy
-   docker build -t hiumonday/nginx-proxy .
-   docker push hiumonday/nginx-proxy
+   - cd ../nginx-proxy
+   - docker build -t hiumonday/nginx-proxy .
+   - docker push hiumonday/nginx-proxy
 
 4. **Deploy to Kubernetes**
-   cd /Challenge_lab03
-   kubectl apply -f ./k8s
+   - cd /Challenge_lab03
+   - kubectl apply -f ./k8s
    
 
 5. **Result**
