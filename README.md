@@ -11,12 +11,12 @@
 ### Steps
 
 
-3. **Write file nginx-demo.yaml**
+1. **Write file nginx-demo.yaml**
 
-5. **Deploy to Kubernetes**
+2. **Deploy to Kubernetes**
    kubectl apply -f nginx-demo.yaml
 
-6. **Result**
+3. **Result**
     - NOTE: docker-desktop context automatically maps localhost to the Kubernetes cluster
         - Access via nodePort 
 
